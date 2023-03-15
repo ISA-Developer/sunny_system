@@ -20,6 +20,7 @@ Enum DataType {
  * @param DataType $data_type
  * @param int $length
  * @param bool $is_primary
+ * @param string $position
 */
 class AlterTable {
     protected $class = "";
@@ -27,14 +28,16 @@ class AlterTable {
     protected $data_type = "";
     protected $length = 0;
     protected $is_primary = false;
+    protected $position = "";
 
-    function __construct(string $class, string $column_name, DataType $data_type, int $length = 0, bool $is_primary = false)
+    function __construct(string $class, string $column_name, DataType $data_type, int $length = 0, bool $is_primary = false, string $position = "")
     {
         $this->class = $class;
         $this->column_name = $column_name;
         $this->data_type = $data_type;
         $this->length = $length;
         $this->is_primary = $is_primary;
+        $this->position = $position;
     }
 
     /**
@@ -50,54 +53,94 @@ class AlterTable {
                 Schema::table($model->getTable(), function(Blueprint $table) {
                     switch($this->data_type) {
                         case DataType::BOOL:
-                            if($this->is_primary) {
+                            if($this->is_primary && !empty($this->position)) {
+                                $table->boolean($this->column_name)->primary()->after($this->position);
+                            }elseif($this->is_primary){
                                 $table->boolean($this->column_name)->primary();
+                            }elseif(!empty($this->position)){
+                                $table->boolean($this->column_name)->after($this->position);
+                            }else{
+                                $table->boolean($this->column_name);
                             }
-                            $table->boolean($this->column_name);
                             break;
                         case DataType::STRING:
                             if($this->length < 1) throw new LengthException($this->data_type::class. "::STRING" . " length must be greater than 0.");
                             elseif($this->length > 255) throw new LengthException($this->data_type::class. "::STRING" . " length must be less than 256.");
-                            if($this->is_primary) {
+                            if($this->is_primary && !empty($this->position)) {
+                                $table->string($this->column_name, $this->length)->primary()->after($this->position);
+                            }elseif($this->is_primary){
                                 $table->string($this->column_name, $this->length)->primary();
+                            }elseif(!empty($this->position)){
+                                $table->string($this->column_name, $this->length)->after($this->position);
+                            }else{
+                                $table->string($this->column_name, $this->length);
                             }
-                            $table->string($this->column_name, $this->length);
                             break;
                         case DataType::INT:
-                            if($this->is_primary) {
+                            if($this->is_primary && !empty($this->position)) {
+                                $table->integer($this->column_name)->primary()->after($this->position);
+                            }elseif($this->is_primary){
                                 $table->integer($this->column_name)->primary();
+                            }elseif(!empty($this->position)){
+                                $table->integer($this->column_name)->after($this->position);
+                            }else{
+                                $table->integer($this->column_name);
                             }
-                            $table->integer($this->column_name);
                             break;
                         case DataType::LONGINT:
-                            if($this->is_primary) {
+                            if($this->is_primary && !empty($this->position)) {
+                                $table->bigInteger($this->column_name)->primary()->after($this->position);
+                            }elseif($this->is_primary){
                                 $table->bigInteger($this->column_name)->primary();
+                            }elseif(!empty($this->position)){
+                                $table->bigInteger($this->column_name)->after($this->position);
+                            }else{
+                                $table->bigInteger($this->column_name);
                             }
-                            $table->bigInteger($this->column_name);
                             break;
                         case DataType::TEXT:
-                            if($this->is_primary) {
+                            if($this->is_primary && !empty($this->position)) {
+                                $table->text($this->column_name)->primary()->after($this->position);
+                            }elseif($this->is_primary){
                                 $table->text($this->column_name)->primary();
+                            }elseif(!empty($this->position)){
+                                $table->text($this->column_name)->after($this->position);
+                            }else{
+                                $table->text($this->column_name);
                             }
-                            $table->text($this->column_name);
                             break;
                         case DataType::LONGTEXT:
-                            if($this->is_primary) {
+                            if($this->is_primary && !empty($this->position)) {
+                                $table->longText($this->column_name)->primary()->after($this->position);
+                            }elseif($this->is_primary){
                                 $table->longText($this->column_name)->primary();
+                            }elseif(!empty($this->position)){
+                                $table->longText($this->column_name)->after($this->position);
+                            }else{
+                                $table->longText($this->column_name);
                             }
-                            $table->longText($this->column_name);
                             break;
                         case DataType::DATETIME:
-                            if($this->is_primary) {
+                            if($this->is_primary && !empty($this->position)) {
+                                $table->dateTime($this->column_name)->primary()->after($this->position);
+                            }elseif($this->is_primary){
                                 $table->dateTime($this->column_name)->primary();
+                            }elseif(!empty($this->position)){
+                                $table->dateTime($this->column_name)->after($this->position);
+                            }else{
+                                $table->dateTime($this->column_name);
                             }
-                            $table->dateTime($this->column_name);
                             break;
                         case DataType::UUID:
-                            if($this->is_primary) {
+                            if($this->is_primary && !empty($this->position)) {
+                                $table->uuid($this->column_name)->primary()->after($this->position);
+                            }elseif($this->is_primary){
                                 $table->uuid($this->column_name)->primary();
+                            }elseif(!empty($this->position)){
+                                $table->uuid($this->column_name)->after($this->position);
+                            }else{
+                                $table->uuid($this->column_name);
                             }
-                            $table->uuid($this->column_name);
                             break;
                         default:
                             throw new Exception("Data Type not exist! Data Type available: " . collect(DataType::cases())->join(", ", " and "));
