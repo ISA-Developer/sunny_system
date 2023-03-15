@@ -14,6 +14,12 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
+Route::post('/login', [AuthenticatedSessionController::class, 'storeSanctum'])
+    ->name('login.sanctum');
+
+Route::middleware('auth:sanctum')->group( function () {
+    Route::get('/logout', [AuthenticatedSessionController::class, 'destroySanctum'])
+        ->name('logout.sanctum');
+
+
 });
