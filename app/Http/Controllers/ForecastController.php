@@ -11,7 +11,6 @@ class ForecastController extends Controller
 {
     public function index(Request $request) {
         alter_table(Forecast::class, "nilai_forecast", DataType::LONGINT);
-        $forecasts = Forecast::getAllForecast();
         return view("Forecast/forecast", compact([]));
     }
 }
