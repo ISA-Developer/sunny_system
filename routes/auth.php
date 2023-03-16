@@ -58,10 +58,10 @@ Route::middleware('auth')->group(function () {
 
     Route::put('password', [PasswordController::class, 'update'])->name('password.update');
 
-    Route::post('logout', [AuthenticatedSessionController::class, 'destroy'])
+    Route::get('logout', [AuthenticatedSessionController::class, 'destroy'])
                 ->name('logout');
 
     // Logout with json
-    Route::post('logout/json', [AuthenticatedSessionController::class, 'destroyJson'])
+    Route::get('logout/json', [AuthenticatedSessionController::class, 'destroyJson'])
         ->name('logout.json');
 });

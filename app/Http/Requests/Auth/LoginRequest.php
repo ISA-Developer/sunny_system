@@ -2,12 +2,15 @@
 
 namespace App\Http\Requests\Auth;
 
+use Exception;
 use Illuminate\Auth\Events\Lockout;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Support\Str;
 use Illuminate\Validation\ValidationException;
+use Illuminate\Contracts\Validation\Validator;
+use Illuminate\Http\Exceptions\HttpResponseException;
 
 class LoginRequest extends FormRequest
 {
@@ -56,7 +59,7 @@ class LoginRequest extends FormRequest
             RateLimiter::hit($this->throttleKey());
 
             throw ValidationException::withMessages([
-                'username_email' => trans('auth.failed'),
+                'username_email' => 'Username/Email is wrong',
             ]);
         }
 
@@ -64,7 +67,7 @@ class LoginRequest extends FormRequest
         $user = Auth::user();
         if(!$user->is_active) {
             throw ValidationException::withMessages([
-                'username_email' => trans('auth.failed'),
+                'username_email' => 'Username/Email is wrong',
             ]);
         }
 
@@ -108,7 +111,7 @@ class LoginRequest extends FormRequest
     {
         try {
             $this->authenticate();
-        } catch (ValidationException $e) {
+        } catch (\Exception $e) {
             
             // minus handle for rate limiter
 
@@ -166,5 +169,34 @@ class LoginRequest extends FormRequest
                 'expiresAt' => $token->accessToken->expires_at
             ],
 		], 200);
+    }
+
+    public function attributes()
+    {
+        return [
+            'username' => 'Username/Email',
+            'email' => 'Username/Email',
+            'password' => 'Password'
+        ]; 
+    }
+
+    public function messages()
+    {
+        return [
+            'required' => ':attribute is required',
+            'required_without' => ':attribute is required',
+            'email' => ':attribute is invalid',
+        ];
+    }
+
+    protected function failedValidation(Validator $validator)
+    {
+        $response = [
+            'success' => false,
+            'message' => 'Validation failed',
+            'errors' => $validator->errors(),
+        ];
+        
+        throw new HttpResponseException(response()->json($response, 422));
     }
 }
