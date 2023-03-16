@@ -2,12 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Role;
-use App\Models\Unit;
 use App\Models\User;
 use Faker\Core\Uuid;
 use App\Models\Token;
 use App\Models\Agenda;
+use App\Models\UserRole;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use RealRashid\SweetAlert\Facades\Alert;
@@ -31,7 +30,7 @@ class UserController extends Controller
         // dd($data);
         $newUser->password = Hash::make($data["password"]);
 
-        $newRole = new Role();
+        $newRole = new UserRole();
         $newRole->uuid = $newUser->uuid;
         $newRole->is_supervisor = false;
         $newRole->is_admin = false;
