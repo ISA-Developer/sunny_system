@@ -137,7 +137,7 @@
                 </div>
                 <!--end::Wrapper-->
                 <!--begin::Button-->
-                @if (auth()->user()->Role->is_supervisor)
+                @if (auth()->user()->role->is_supervisor)
                 <a href="#" class="btn btn-sm btn-primary" data-bs-toggle="modal"
                 data-bs-target="#exampleModal" id="kt_toolbar_primary_button">Create</a>
                 @endif
@@ -185,7 +185,7 @@
                             <td>{{ $item->updated_at }}</td>
                             <td>
                                 <a href="/account/view/{{ $item->uuid }}" type="button" class="btn btn-warning btn-sm"><i class="bi bi-pencil-square"></i></a>
-                                @if (!$item->Role->is_supervisor)
+                                @if (!$item->role->is_supervisor)
                                     <button type="button" class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#modaldelete{{ $item->id }}"><i class="bi bi-trash"></i></button>
                                 @endif
                             </td>
