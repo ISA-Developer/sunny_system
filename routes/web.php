@@ -159,6 +159,12 @@ Route::group(['middleware' => ["auth"]], function () {
     Route::get('/forecast', [ForecastController::class, "index"]);
     // End :: Forecast
 
+    // Begin :: Oportunity
+    Route::get('/oportunity', function () {
+        return view('oportunity');
+    });
+    // Begin :: Oportunity
+
     Route::get('/setting', function () {
         $default = Cookie::get('default');
         $color = Cookie::get('color');
