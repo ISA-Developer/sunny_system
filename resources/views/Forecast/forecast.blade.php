@@ -16,8 +16,10 @@
         .dtrg-group.dtrg-level-1 {
             transition: all .3ms ease-in-out;
         }
-        .dtrg-group.dtrg-level-0:hover {
-            background: red;
+        .dtrg-group.dtrg-level-0:hover, .dtrg-group.dtrg-level-1:hover {
+            background: #0F2846;
+            color: white;
+            cursor: pointer;
         }
 
         .dtrg-group.dtrg-level-1 th {
@@ -236,8 +238,6 @@
                     
                     toggleRowHeader(element.nextSibling);
                 });
-                // if(element.classList.contains("dtrg-level-0")) {
-                // }
             }
         });
     </script>

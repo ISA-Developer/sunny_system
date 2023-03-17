@@ -1,6 +1,6 @@
 @extends('layouts.main')
 
-@section('title', "Forecast")
+@section('title', "")
 
 <style>
     .chart-outer {

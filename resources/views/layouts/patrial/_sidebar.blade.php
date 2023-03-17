@@ -91,7 +91,17 @@
                             </span>
                             <!--end::Svg Icon-->
                         </span>
-                        <span style="font-size: 16px" class="menu-title text-white">Oportunity</span>
+                        <span style="font-size: 16px" class="menu-title text-white">Opportunity</span>
+                    </a>
+                </div>
+                <!--end:Menu item-->
+                <!--begin:Menu item-->
+                <div class="menu-item">
+                    <a class="menu-link" {!! str_contains(Request::Path(), 'leads') ? $activePage : '' !!}  href="/leads">
+                        <span class="me-3">
+                            <i class="bi bi-bar-chart-fill fs-1"></i>
+                        </span>
+                        <span style="font-size: 16px" class="menu-title text-white">Leads</span>
                     </a>
                 </div>
                 <!--end:Menu item-->

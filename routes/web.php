@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\ForecastController;
+use App\Http\Controllers\LeadController;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Str;
@@ -164,6 +165,10 @@ Route::group(['middleware' => ["auth"]], function () {
         return view('oportunity');
     });
     // Begin :: Oportunity
+
+    // Begin :: Leads
+    Route::get('/leads', [LeadController::class, "index"]);
+    // End :: Leads
 
     Route::get('/setting', function () {
         $default = Cookie::get('default');
