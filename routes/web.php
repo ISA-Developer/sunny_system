@@ -32,12 +32,10 @@ Route::post('/login', function (Request $request) {
         'password' => ["required"]
     ]);
     if (Auth::attempt($credentials)) {
-        // dd($credentials);
         $request->session()->regenerate();
         Alert::toast('Login Success','success')->autoClose(2500);
         return redirect()->intended("/dashboard");
     }
-    // dd(Auth::attempt($credentials), Auth::check());
     Alert::error("Login Gagal", "Pastikan Email dan Password Benar");
     return back();
 });
@@ -46,9 +44,6 @@ Route::group(['middleware' => ["auth"]], function () {
 // Begin :: Group Route
 
     Route::get('/logout', function (Request $request) {
-            // auth()->user()->forceFill([
-            //     "remember_token" => null,
-            // ])->save();
 
             Auth::logout();
 
@@ -159,18 +154,14 @@ Route::group(['middleware' => ["auth"]], function () {
         $color = Cookie::get('color');
         $active = Cookie::get('active');
         $chartColor = Cookie::get('chart');
+        $svg = Illuminate\Support\Facades\File::allFiles(public_path('assets/media/icons/duotune'));
+        // dd($svg);
         // $chartColor = ["#017EB8", "#28B3AC", "#F7AD1A", "#9FE7F5", "#E86340", "#063F5C"];
         // dd($color, $active);
-        return view('9_setting', compact(['color', 'active', 'chartColor', 'default']));
+        return view('9_setting', compact(['color', 'active', 'chartColor', 'default', 'svg']));
     });
 
     Route::post('/setting/cookie', function (Request $request) {
-        // $response = new Response('Cookie');
-        // $response->withCookie(cookie('color', $request["aside-color"]);
-        // dd($request["chart-color"]);
-        // $data = $request->all();
-        // dd($data);
-
         if (empty($request["default"])) {
             $color = cookie()->forever('color', $request["aside-color"]);
             $active = cookie()->forever('active', $request["active-color"]);
@@ -184,9 +175,7 @@ Route::group(['middleware' => ["auth"]], function () {
             $chartColor = cookie()->forever('chart', '');
             $default = cookie()->forever('default', 'true');
         }
-
-        //  dd($request);
-        //  dd($color, $active, $chartColor, $request->get('chart-color'));
+        
         return redirect()->back()->withCookies([$default, $color, $active, $chartColor]) ;
     });
 // End :: Group Route
