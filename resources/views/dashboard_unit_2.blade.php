@@ -617,7 +617,7 @@
                 type: 'column'
             },
             title: {
-                text: 'BMN KPPU Per Tahun',
+                text: 'Data Per Tahun',
                 style: {
                     fontWeight: 'bold',
                     fontSize: '25px'

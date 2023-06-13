@@ -1,9 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    {{-- <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge"> --}}
     <!--begin::Fonts-->
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700" />
     <!--end::Fonts-->
@@ -13,14 +10,18 @@
     <!--begin::Global Stylesheets Bundle(used by all pages)-->
     <link href="/assets/plugins/global/plugins.bundle.css" rel="stylesheet" type="text/css" />
     <link href="/assets/css/style.bundle.css" rel="stylesheet" type="text/css" />
-    <title>Sunny Sidasi KPPU</title>
+    <title>Sunny Template</title>
     <link href="/assets/css/login.css" rel="stylesheet" type="text/css" />
+    <style>
+        .bg-illustration{
+            background-color : #0F2846`` !important;
+        }
+    </style>
 </head>
 <body>
     <div class="parent clearfix">
         <div class="bg-illustration">
             <img style="margin-top: 100px; margin-left: 50px" src="/assets/media/logos/logo-white.png" alt="logo">
-            {{-- <h1 class="text-white mt-5" style="margin-top: 100px; margin-left: 50px; font-size : 35px">Sunny System</h1> --}}
             <hr class="text-white mt-10">
             <p class="text-white mt-5" style="margin-left: 50px">It's not about having the right opportunities.</p>
             <p class="text-white mt-5" style="margin-left: 50px">It's about handling the opportunities right.</p>
