@@ -14,7 +14,7 @@
     <link href="/assets/css/login.css" rel="stylesheet" type="text/css" />
     <style>
         .bg-illustration{
-            background-color : #0F2846 !important;
+            background-color : #0F2846`` !important;
         }
     </style>
 </head>
