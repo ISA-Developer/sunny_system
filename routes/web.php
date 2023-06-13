@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\CompanyController;
+use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\ForecastController;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
@@ -194,5 +196,17 @@ Route::group(['middleware' => ["auth"]], function () {
         //  dd($color, $active, $chartColor, $request->get('chart-color'));
         return redirect()->back()->withCookies([$default, $color, $active, $chartColor]) ;
     });
+
+    // Begin :: Route Customer Management
+    Route::get('/customer', [CustomerController::class, 'index']);
+    Route::post('/customer/create', [CustomerController::class, 'create']);
+    // End :: Route Customer Management
+   
+    // Begin :: Route Company
+    Route::get('/company', [CompanyController::class, 'index']);
+    Route::get('/company/view', [CompanyController::class, 'view']);
+    // Route::post('/customer/create', [CustomerController::class, 'create']);
+    // End :: Route Company
+
 // End :: Group Route
 });
