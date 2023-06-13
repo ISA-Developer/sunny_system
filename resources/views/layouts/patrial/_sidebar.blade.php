@@ -68,6 +68,16 @@
                 <!--end:Menu item-->
                 <!--begin:Menu item-->
                 <div class="menu-item">
+                    <a class="menu-link" {!! str_contains(Request::Path(), 'forecast') ? $activePage : '' !!}  href="/forecast">
+                        <span class="me-3">
+                            <i class="bi bi-bar-chart-fill fs-1"></i>
+                        </span>
+                        <span style="font-size: 16px" class="menu-title text-white">Forecast</span>
+                    </a>
+                </div>
+                <!--end:Menu item-->
+                <!--begin:Menu item-->
+                <div class="menu-item">
                     @if (!auth()->user()->Role->is_user)
                     <a class="menu-link" {!! str_contains(Request::Path(), 'account') ? $activePage : '' !!} href="/account">
                     @else

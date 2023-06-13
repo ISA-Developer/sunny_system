@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\ForecastController;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Str;
@@ -148,6 +149,10 @@ Route::group(['middleware' => ["auth"]], function () {
     Route::get('dashboard-unit-9', function () {
         return view('dashboard_unit_9');
     });
+
+    // Begin :: Forecast
+    Route::get('/forecast', [ForecastController::class, "index"]);
+    // End :: Forecast
 
     Route::get('/setting', function () {
         $default = Cookie::get('default');
