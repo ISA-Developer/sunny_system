@@ -24,7 +24,7 @@
         <!--begin::Mobile logo-->
         <div class="d-flex align-items-center flex-grow-1 flex-lg-grow-0">
             <a href="/dashboard" class="d-lg-none">
-                <img alt="Logo" src="assets/media/logos/logo-gray.png" class="h-30px" />
+                <img alt="Logo" src="/assets/media/logos/logo-gray.png" class="h-30px" />
             </a>
         </div>
         <!--end::Mobile logo-->
@@ -36,7 +36,7 @@
                 <div class="header-menu align-items-stretch" data-kt-drawer="true"
                     data-kt-drawer-name="header-menu">
                     {{-- <a href="../../demo1/dist/index.html">
-                        <img alt="Logo" src="assets/media/logos/logo-1-dark.svg"
+                        <img alt="Logo" src="/assets/media/logos/logo-1-dark.svg"
                             class="h-25px logo" />
                     </a> --}}
                 </div>
@@ -96,7 +96,7 @@
                             data-kt-menu="true">
                             <!--begin::Heading-->
                             <div class="d-flex flex-column bgi-no-repeat rounded-top"
-                                style="background-image:url('assets/media/misc/pattern-1.jpg')">
+                                style="background-image:url('/assets/media/misc/pattern-1.jpg')">
                                 <!--begin::Title-->
                                 <h3 class="text-white fw-bold px-9 mt-10 mb-6">Notifications
                                     <span class="fs-8 opacity-75 ps-3">24 reports</span>
@@ -217,7 +217,7 @@
                             data-kt-menu="true">
                             <!--begin::Heading-->
                             <div class="d-flex flex-column flex-center bgi-no-repeat rounded-top px-9 py-10"
-                                style="background-image:url('assets/media/misc/pattern-1.jpg')">
+                                style="background-image:url('/assets/media/misc/pattern-1.jpg')">
                                 <!--begin::Title-->
                                 <h3 class="text-white fw-bold mb-3">Quick Links</h3>
                                 <!--end::Title-->
@@ -354,7 +354,7 @@
                         <div class="cursor-pointer symbol symbol-30px symbol-md-40px"
                             data-kt-menu-trigger="click" data-kt-menu-attach="parent"
                             data-kt-menu-placement="bottom-end">
-                            <img src="assets/media/avatars/blank.png" alt="user" />
+                            <img src="/assets/media/avatars/blank.png" alt="user" />
                         </div>
                         <!--begin::Menu-->
                         <div class="menu menu-sub menu-sub-dropdown menu-column menu-rounded menu-gray-800 menu-state-bg menu-state-primary fw-bold py-4 fs-6 w-275px"

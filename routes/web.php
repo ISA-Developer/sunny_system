@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\CompanyController;
+use App\Http\Controllers\ContactController;
 use App\Http\Controllers\ForecastController;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
@@ -10,6 +12,7 @@ use Illuminate\Support\Facades\Cookie;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Redirect;
 use RealRashid\SweetAlert\Facades\Alert;
+use App\Http\Controllers\HelperController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -183,5 +186,24 @@ Route::group(['middleware' => ["auth"]], function () {
         
         return redirect()->back()->withCookies([$default, $color, $active, $chartColor]) ;
     });
+
+    // Begin :: Route Customer Management
+    Route::get('/contact', [ContactController::class, 'index']);
+    Route::get('/contact/get', [HelperController::class, "getAllData"]);
+    Route::get('/contact/view/{id_customer}', [ContactController::class, 'view']);
+    Route::post('/contact/create', [ContactController::class, 'create']);
+    // End :: Route Customer Management
+   
+    // Begin :: Route Company
+    Route::get('/company', [CompanyController::class, 'index']);
+    Route::get('/company/get', [HelperController::class, "getAllData"]);
+    Route::get('/company/delete/{case}/{model_class}', [HelperController::class, "delete"]);
+    Route::get('/company/view/{id_companies}', [CompanyController::class, 'view']);
+    Route::post('/company/create', [CompanyController::class, 'create']);
+    Route::post('/company/edit', [CompanyController::class, 'edit']);
+    // Route::get('/company/view', [CompanyController::class, 'view']);
+    // Route::post('/customer/create', [ContactController::class, 'create']);
+    // End :: Route Company
+
 // End :: Group Route
 });
