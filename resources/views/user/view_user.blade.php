@@ -294,7 +294,7 @@
                                 <!--end::Label-->
                                 <!--begin::Col-->
                                 <div class="col-lg-8 fv-row">
-                                    <input type="text" name="website" class="form-control form-control-lg form-control-solid" placeholder="Company website" value="https://kppu.go.id" readonly/>
+                                    <input type="text" name="website" class="form-control form-control-lg form-control-solid" placeholder="Company website" value="https://google.com" readonly/>
                                 </div>
                                 <!--end::Col-->
                             </div>

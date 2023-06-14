@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\CompanyController;
+use App\Http\Controllers\ContactController;
 use App\Http\Controllers\ForecastController;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
@@ -10,6 +12,7 @@ use Illuminate\Support\Facades\Cookie;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Redirect;
 use RealRashid\SweetAlert\Facades\Alert;
+use App\Http\Controllers\HelperController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -33,12 +36,10 @@ Route::post('/login', function (Request $request) {
         'password' => ["required"]
     ]);
     if (Auth::attempt($credentials)) {
-        // dd($credentials);
         $request->session()->regenerate();
         Alert::toast('Login Success','success')->autoClose(2500);
         return redirect()->intended("/dashboard");
     }
-    // dd(Auth::attempt($credentials), Auth::check());
     Alert::error("Login Gagal", "Pastikan Email dan Password Benar");
     return back();
 });
@@ -47,9 +48,6 @@ Route::group(['middleware' => ["auth"]], function () {
 // Begin :: Group Route
 
     Route::get('/logout', function (Request $request) {
-            // auth()->user()->forceFill([
-            //     "remember_token" => null,
-            // ])->save();
 
             Auth::logout();
 
@@ -164,18 +162,14 @@ Route::group(['middleware' => ["auth"]], function () {
         $color = Cookie::get('color');
         $active = Cookie::get('active');
         $chartColor = Cookie::get('chart');
+        $svg = Illuminate\Support\Facades\File::allFiles(public_path('assets/media/icons/duotune'));
+        // dd($svg);
         // $chartColor = ["#017EB8", "#28B3AC", "#F7AD1A", "#9FE7F5", "#E86340", "#063F5C"];
         // dd($color, $active);
-        return view('9_setting', compact(['color', 'active', 'chartColor', 'default']));
+        return view('9_setting', compact(['color', 'active', 'chartColor', 'default', 'svg']));
     });
 
     Route::post('/setting/cookie', function (Request $request) {
-        // $response = new Response('Cookie');
-        // $response->withCookie(cookie('color', $request["aside-color"]);
-        // dd($request["chart-color"]);
-        // $data = $request->all();
-        // dd($data);
-
         if (empty($request["default"])) {
             $color = cookie()->forever('color', $request["aside-color"]);
             $active = cookie()->forever('active', $request["active-color"]);
@@ -189,10 +183,27 @@ Route::group(['middleware' => ["auth"]], function () {
             $chartColor = cookie()->forever('chart', '');
             $default = cookie()->forever('default', 'true');
         }
-
-        //  dd($request);
-        //  dd($color, $active, $chartColor, $request->get('chart-color'));
+        
         return redirect()->back()->withCookies([$default, $color, $active, $chartColor]) ;
     });
+
+    // Begin :: Route Customer Management
+    Route::get('/contact', [ContactController::class, 'index']);
+    Route::get('/contact/get', [HelperController::class, "getAllData"]);
+    Route::get('/contact/view/{id_customer}', [ContactController::class, 'view']);
+    Route::post('/contact/create', [ContactController::class, 'create']);
+    // End :: Route Customer Management
+   
+    // Begin :: Route Company
+    Route::get('/company', [CompanyController::class, 'index']);
+    Route::get('/company/get', [HelperController::class, "getAllData"]);
+    Route::get('/company/delete/{case}/{model_class}', [HelperController::class, "delete"]);
+    Route::get('/company/view/{id_companies}', [CompanyController::class, 'view']);
+    Route::post('/company/create', [CompanyController::class, 'create']);
+    Route::post('/company/edit', [CompanyController::class, 'edit']);
+    // Route::get('/company/view', [CompanyController::class, 'view']);
+    // Route::post('/customer/create', [ContactController::class, 'create']);
+    // End :: Route Company
+
 // End :: Group Route
 });

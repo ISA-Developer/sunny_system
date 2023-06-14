@@ -75,6 +75,7 @@
 
     @section('container')
 
+    <!--begin::Content-->
     <div class="content d-flex flex-column flex-column-fluid" id="kt_content">
         <!--begin::Toolbar-->
         <div class="toolbar" id="kt_toolbar">
@@ -87,13 +88,31 @@
                     <!--begin::Title-->
                     <h1 class="d-flex align-items-center text-dark fw-bolder fs-3 my-1">Layout Builder
                         <!--begin::Separator-->
-                        {{-- <span class="h-20px border-gray-200 border-start ms-3 mx-2"></span> --}}
+                        <span class="h-20px border-gray-200 border-start ms-3 mx-2"></span>
                         <!--end::Separator-->
                         <!--begin::Description-->
                         {{-- <small class="text-muted fs-7 fw-bold my-1 ms-1">#XRS-45670</small> --}}
                         <!--end::Description-->
                     </h1>
+                    <ul class="nav nav-custom nav-tabs nav-line-tabs nav-line-tabs-2x border-0 fs-4 fw-bold">
+                        <li class="nav-item">
+                            <a class="nav-link text-active-primary mb-1 pb-1 active" data-bs-toggle="tab"
+                                href="#kt_view_1"
+                                style="font-size:14px;">Side and Chart</a>
+                        </li>
+
+                        <li class="nav-item">
+                            <a class="nav-link text-active-primary mb-1 pb-1"
+                                data-kt-countup-tabs="true" data-bs-toggle="tab"
+                                href="#kt_view_2"
+                                style="font-size:14px;">Menu and Icon</a>
+                        </li>
+                    </ul>
                     <!--end::Title-->
+                    <!--begin:::Tabs Navigasi-->
+                    {{-- <div class="card-header pt-6 pb-0 mb-0">
+                    </div> --}}
+                    <!--end:::Tabs Navigasi-->
                 </div>
                 <!--end::Page title-->
                 <!--begin::Actions-->
@@ -226,142 +245,201 @@
             }
         @endphp
 
-        <!--begin::Card Diagram Column dan Donut-->
-        <div class="row mx-3">
-            <!--begin::Card column-->
-            <div class="col-6">
-                <!--begin::Card body-->
-                <div class="card-body pt-0">
-                    <!--begin::COLUMN CHART-->
-                    <div id="column-chart"></div>
-                    <!-- data table is inserted here -->
-                    <!--end::COLUMN CHART-->
-                </div>
-                <!--end::Card body-->
-            </div>
-            <!--end-begin::Card column-->
-            <div class="col-6">
-                <!--begin::Card body-->
-                <div class="card-body pt-0">
-                    <!--begin::PIE CHART-->
-                    <figure class="highcharts-figure">
-                        <div id="donut-chart"></div>
-                        <!-- data table is inserted here -->
-                    </figure>
-                    <!--end::PIE CHART-->
-                </div>
-                <!--end::Card body-->
-            </div>
-            <!--end::Card column-->
-        </div>
-        <!--end::Card Diagram Column dan Donut-->
-        <!--begin::Post-->
-        <div class="card mx-6" Id="List-vv" style="position: relative; overflow: hidden;">
-            <!--begin::Card body-->
-            <div class="card-body pt-6">
-                <form action="/setting/cookie" method="post">
-                    @csrf
-                    <!--begin::Aside Setting-->
-                    <div class="row">
-                        <h1>Diagram Chart Color</h1>
-                    </div>
-                    <!--begin::Options-->
-                    <br>
-                    <div class="d-flex" style="flex-direction: row">
-                        <!--begin::Options-->
-                        <label class="form-check form-check-sm form-check-custom form-check-solid me-6 ms-4 align-middle">
-                            <input class="form-check-input" type="radio" value="['#017EB8', '#28B3AC', '#F7AD1A', '#9FE7F5', '#E86340', '#063F5C']" id="chart-color" name="chart-color" {{ $chartColor == "['#017EB8', '#28B3AC', '#F7AD1A', '#9FE7F5', '#E86340', '#063F5C']" ? 'checked' : '' }}/>
-                            <span class="form-check-label px-3 py-3"><b>Alt Color 1 :</b></span>
-                            <span class="form-check-label me-0 px-3 py-3" style="background: #017EB8"></span>
-                            <span class="form-check-label me-0 px-3 py-3" style="background: #28B3AC"></span>
-                            <span class="form-check-label me-0 px-3 py-3" style="background: #F7AD1A"></span>
-                            <span class="form-check-label me-0 px-3 py-3" style="background: #9FE7F5"></span>
-                            <span class="form-check-label me-0 px-3 py-3" style="background: #E86340"></span>
-                            <span class="form-check-label me-4 px-3 py-3" style="background: #063F5C"></span>
-                        </label>
-                        <!--end::Options-->
-                        <!--begin::Options-->
-                        <label class="form-check form-check-sm form-check-custom form-check-solid me-6">
-                            <input class="form-check-input" type="radio" value="['#239DB5', '#71B383', '#EE8E52', '#EBC44F', '#8D5690', '#E85170',  '#4282A6']" id="chart-color" name="chart-color" {{ $chartColor == "['#239DB5', '#71B383', '#EE8E52', '#EBC44F', '#8D5690', '#E85170',  '#4282A6']" ? 'checked' : '' }}/>
-                            <span class="form-check-label px-3 py-3"><b>Alt Color 2 :</b></span>
-                            <span class="form-check-label me-0 px-3 py-3" style="background: #239DB5"></span>
-                            <span class="form-check-label me-0 px-3 py-3" style="background: #71B383"></span>
-                            <span class="form-check-label me-0 px-3 py-3" style="background: #EE8E52"></span>
-                            <span class="form-check-label me-0 px-3 py-3" style="background: #EBC44F"></span>
-                            <span class="form-check-label me-0 px-3 py-3" style="background: #8D5690"></span>
-                            <span class="form-check-label me-4 px-3 py-3" style="background: #E85170"></span>
-                        </label>
-                        <!--end::Options-->
-                        <!--begin::Options-->
-                        <label class="form-check form-check-sm form-check-custom form-check-solid me-6">
-                            <input class="form-check-input" type="radio" value="['#009EF7', '#50CD89', '#F1416C', '#FFC700', '#7239EA', '#43CED7', '#FA8B28']" id="chart-color" name="chart-color" {{ $chartColor == "['#009EF7', '#50CD89', '#F1416C', '#FFC700', '#7239EA', '#43CED7', '#FA8B28']" ? 'checked' : '' }}/>
-                            <span class="form-check-label px-3 py-3"><b>Alt Color 3 :</b></span>
-                            <span class="form-check-label me-0 px-3 py-3" style="background: #009EF7"></span>
-                            <span class="form-check-label me-0 px-3 py-3" style="background: #50CD89"></span>
-                            <span class="form-check-label me-0 px-3 py-3" style="background: #F1416C"></span>
-                            <span class="form-check-label me-0 px-3 py-3" style="background: #FFC700"></span>
-                            <span class="form-check-label me-0 px-3 py-3" style="background: #7239EA"></span>
-                            <span class="form-check-label me-4 px-3 py-3" style="background: #43CED7"></span>
-                        </label>
-                        <!--end::Options-->
-                        <!--begin::Options-->
-                        <label class="form-check form-check-sm form-check-custom form-check-solid me-6">
-                            <input class="form-check-input" type="radio" value="['#003A6B', '#1B5886', '#3776A1', '#5293BB', '#6EB1D6', '#89CFF1']" id="chart-color" name="chart-color" {{ $chartColor == "['#003A6B', '#1B5886', '#3776A1', '#5293BB', '#6EB1D6', '#89CFF1']" ? 'checked' : '' }}/>
-                            <span class="form-check-label px-3 py-3"><b>Monochrome :</b></span>
-                            <span class="form-check-label me-0 px-3 py-3" style="background: #009EF7"></span>
-                            <span class="form-check-label me-0 px-3 py-3" style="background: #1B5886"></span>
-                            <span class="form-check-label me-0 px-3 py-3" style="background: #3776A1"></span>
-                            <span class="form-check-label me-0 px-3 py-3" style="background: #5293BB"></span>
-                            <span class="form-check-label me-0 px-3 py-3" style="background: #6EB1D6"></span>
-                            <span class="form-check-label me-4 px-3 py-3" style="background: #89CFF1"></span>
-                        </label>
-                        <!--end::Options-->
-                        {{-- <!--begin::Options-->
-                        <label class="form-check form-check-sm form-check-custom form-check-solid me-6">
-                            <input class="form-check-input" type="radio" value="" id="chart-color" name="chart-color" {{ $chartColor == "" ? 'checked' : '' }}/>
-                            <span class="form-check-label px-3 py-3"><b>Default</b></span>
-                        </label>
-                        <!--end::Options--> --}}
-                    </div>
-                    <br>
-                    <br>
-                    <!--end::Options-->
-                    <br>
 
-                    <div class="row">
-                        <h1>Side Bar Color</h1>
-                        <input class="form-control mt-3 col-6" type="color" id="aside-color" name="aside-color" value="{{ $sideColor ?? "#535353" }}">
+        <!--begin:::Tab Content-->
+        <div class="tab-content">
+            <!--begin:::Panel Navigasi Gabungan-->
+            <div class="tab-pane fade show active" id="kt_view_1" role="tabpanel">
+                <!--begin::Card Diagram Column dan Donut-->
+                <div class="row mx-3">
+                    <!--begin::Card column-->
+                    <div class="col-6">
+                        <!--begin::Card body-->
+                        <div class="card-body pt-0">
+                            <!--begin::COLUMN CHART-->
+                            <div id="column-chart"></div>
+                            <!-- data table is inserted here -->
+                            <!--end::COLUMN CHART-->
+                        </div>
+                        <!--end::Card body-->
                     </div>
-                    <br>
-                    
-                    <div class="row">
-                        <h1>Active Page</h1>
-                        <input class="form-control mt-3 col-6" type="color" id="active-color" name="active-color" value="{{ $activeColor ?? "#FFA800" }}">
+                    <!--end-begin::Card column-->
+                    <div class="col-6">
+                        <!--begin::Card body-->
+                        <div class="card-body pt-0">
+                            <!--begin::PIE CHART-->
+                            <figure class="highcharts-figure">
+                                <div id="donut-chart"></div>
+                                <!-- data table is inserted here -->
+                            </figure>
+                            <!--end::PIE CHART-->
+                        </div>
+                        <!--end::Card body-->
                     </div>
-                    <br>
-                    <!--begin::Options-->
-                    <div class="row">
-                        {{-- <h1>Active Page</h1>
-                        <input class="form-control mt-3 col-6" type="color" id="active-color" name="active-color" value="{{ $activeColor ?? "#FFA800" }}"> --}}
-                        <label class="form-check form-check-sm form-check-custom form-check-solid ms-2 me-4">
-                            <input class="form-check-input" type="checkbox" value="true" id="default" name="default" {{ $default == "true" ? 'checked' : '' }}/>
-                            <span class="form-check-label px-3 py-3"><b>Default</b></span>
-                        </label>
+                    <!--end::Card column-->
+                </div>
+                <!--end::Card Diagram Column dan Donut-->
+                <!--begin::Post-->
+                <div class="card mx-6" Id="List-vv" style="position: relative; overflow: hidden;">
+                    <!--begin::Card body-->
+                    <div class="card-body pt-6">
+                        <form action="/setting/cookie" method="post">
+                            @csrf
+                            <!--begin::Aside Setting-->
+                            <div class="row">
+                                <h1>Diagram Chart Color</h1>
+                            </div>
+                            <!--begin::Options-->
+                            <br>
+                            <div class="d-flex" style="flex-direction: row">
+                                <!--begin::Options-->
+                                <label class="form-check form-check-sm form-check-custom form-check-solid me-6 ms-4 align-middle">
+                                    <input class="form-check-input" type="radio" value="['#017EB8', '#28B3AC', '#F7AD1A', '#9FE7F5', '#E86340', '#063F5C']" id="chart-color" name="chart-color" {{ $chartColor == "['#017EB8', '#28B3AC', '#F7AD1A', '#9FE7F5', '#E86340', '#063F5C']" ? 'checked' : '' }}/>
+                                    <span class="form-check-label px-3 py-3"><b>Alt Color 1 :</b></span>
+                                    <span class="form-check-label me-0 px-3 py-3" style="background: #017EB8"></span>
+                                    <span class="form-check-label me-0 px-3 py-3" style="background: #28B3AC"></span>
+                                    <span class="form-check-label me-0 px-3 py-3" style="background: #F7AD1A"></span>
+                                    <span class="form-check-label me-0 px-3 py-3" style="background: #9FE7F5"></span>
+                                    <span class="form-check-label me-0 px-3 py-3" style="background: #E86340"></span>
+                                    <span class="form-check-label me-4 px-3 py-3" style="background: #063F5C"></span>
+                                </label>
+                                <!--end::Options-->
+                                <!--begin::Options-->
+                                <label class="form-check form-check-sm form-check-custom form-check-solid me-6">
+                                    <input class="form-check-input" type="radio" value="['#239DB5', '#71B383', '#EE8E52', '#EBC44F', '#8D5690', '#E85170',  '#4282A6']" id="chart-color" name="chart-color" {{ $chartColor == "['#239DB5', '#71B383', '#EE8E52', '#EBC44F', '#8D5690', '#E85170',  '#4282A6']" ? 'checked' : '' }}/>
+                                    <span class="form-check-label px-3 py-3"><b>Alt Color 2 :</b></span>
+                                    <span class="form-check-label me-0 px-3 py-3" style="background: #239DB5"></span>
+                                    <span class="form-check-label me-0 px-3 py-3" style="background: #71B383"></span>
+                                    <span class="form-check-label me-0 px-3 py-3" style="background: #EE8E52"></span>
+                                    <span class="form-check-label me-0 px-3 py-3" style="background: #EBC44F"></span>
+                                    <span class="form-check-label me-0 px-3 py-3" style="background: #8D5690"></span>
+                                    <span class="form-check-label me-4 px-3 py-3" style="background: #E85170"></span>
+                                </label>
+                                <!--end::Options-->
+                                <!--begin::Options-->
+                                <label class="form-check form-check-sm form-check-custom form-check-solid me-6">
+                                    <input class="form-check-input" type="radio" value="['#009EF7', '#50CD89', '#F1416C', '#FFC700', '#7239EA', '#43CED7', '#FA8B28']" id="chart-color" name="chart-color" {{ $chartColor == "['#009EF7', '#50CD89', '#F1416C', '#FFC700', '#7239EA', '#43CED7', '#FA8B28']" ? 'checked' : '' }}/>
+                                    <span class="form-check-label px-3 py-3"><b>Alt Color 3 :</b></span>
+                                    <span class="form-check-label me-0 px-3 py-3" style="background: #009EF7"></span>
+                                    <span class="form-check-label me-0 px-3 py-3" style="background: #50CD89"></span>
+                                    <span class="form-check-label me-0 px-3 py-3" style="background: #F1416C"></span>
+                                    <span class="form-check-label me-0 px-3 py-3" style="background: #FFC700"></span>
+                                    <span class="form-check-label me-0 px-3 py-3" style="background: #7239EA"></span>
+                                    <span class="form-check-label me-4 px-3 py-3" style="background: #43CED7"></span>
+                                </label>
+                                <!--end::Options-->
+                                <!--begin::Options-->
+                                <label class="form-check form-check-sm form-check-custom form-check-solid me-6">
+                                    <input class="form-check-input" type="radio" value="['#003A6B', '#1B5886', '#3776A1', '#5293BB', '#6EB1D6', '#89CFF1']" id="chart-color" name="chart-color" {{ $chartColor == "['#003A6B', '#1B5886', '#3776A1', '#5293BB', '#6EB1D6', '#89CFF1']" ? 'checked' : '' }}/>
+                                    <span class="form-check-label px-3 py-3"><b>Monochrome :</b></span>
+                                    <span class="form-check-label me-0 px-3 py-3" style="background: #009EF7"></span>
+                                    <span class="form-check-label me-0 px-3 py-3" style="background: #1B5886"></span>
+                                    <span class="form-check-label me-0 px-3 py-3" style="background: #3776A1"></span>
+                                    <span class="form-check-label me-0 px-3 py-3" style="background: #5293BB"></span>
+                                    <span class="form-check-label me-0 px-3 py-3" style="background: #6EB1D6"></span>
+                                    <span class="form-check-label me-4 px-3 py-3" style="background: #89CFF1"></span>
+                                </label>
+                                <!--end::Options-->
+                                {{-- <!--begin::Options-->
+                                <label class="form-check form-check-sm form-check-custom form-check-solid me-6">
+                                    <input class="form-check-input" type="radio" value="" id="chart-color" name="chart-color" {{ $chartColor == "" ? 'checked' : '' }}/>
+                                    <span class="form-check-label px-3 py-3"><b>Default</b></span>
+                                </label>
+                                <!--end::Options--> --}}
+                            </div>
+                            <br>
+                            <br>
+                            <!--end::Options-->
+                            <br>
+
+                            <div class="row">
+                                <h1>Side Bar Color</h1>
+                                <input class="form-control mt-3 col-6" type="color" id="aside-color" name="aside-color" value="{{ $sideColor ?? "#535353" }}">
+                            </div>
+                            <br>
+                            
+                            <div class="row">
+                                <h1>Active Page</h1>
+                                <input class="form-control mt-3 col-6" type="color" id="active-color" name="active-color" value="{{ $activeColor ?? "#FFA800" }}">
+                            </div>
+                            <br>
+                            <!--begin::Options-->
+                            <div class="row">
+                                {{-- <h1>Active Page</h1>
+                                <input class="form-control mt-3 col-6" type="color" id="active-color" name="active-color" value="{{ $activeColor ?? "#FFA800" }}"> --}}
+                                <label class="form-check form-check-sm form-check-custom form-check-solid ms-2 me-4">
+                                    <input class="form-check-input" type="checkbox" value="true" id="default" name="default" {{ $default == "true" ? 'checked' : '' }}/>
+                                    <span class="form-check-label px-3 py-3"><b>Default</b></span>
+                                </label>
+                            </div>
+                            <br>
+                            <!--end::Options-->
+                            <div>
+                                <button type="submit" class="btn btn-primary btn-sm">Save</button>
+                            </div>
+                            <!--end::Aside Setting-->
+                        </form>
                     </div>
-                    <br>
-                    <!--end::Options-->
-                    <div>
-                        <button type="submit" class="btn btn-primary btn-sm">Save</button>
-                    </div>
-                    <!--end::Aside Setting-->
-                </form>
+                    <!--end::Card body-->
+                </div>
+                <!--end::Post-->
             </div>
-        
-            <!--end::Card body-->
+            <!--end:::Panel Navigasi Gabungan-->
+            <!--begin:::Panel Navigasi Rupiah Murni-->
+            <div class="tab-pane fade" id="kt_view_2" role="tabpanel">
+                <!--begin::Post-->
+                <div class="card mx-6" Id="List-vv" style="position: relative; overflow: hidden;">
+                    <!--begin::Card body-->
+                    <div class="card-body pt-6">
+                        {{-- {{ $svg = Illuminate\Support\Facades\File::allFiles(public_path('assets/media/icons/duotune/abstract')) }} --}}
+                        <!--begin::Options-->
+                        <div id="svg-fill" class="" style="display: grid; grid-template-rows: repeat(1, 1fr); grid-template-columns: repeat(5, 1fr); row-gap: 1rem;">
+                            <!--begin::Option-->
+                            @foreach($svg as $key => $s)
+                            <!--begin::Group-->
+                            <div class="row mb-6">
+                                <!--begin::Col-->
+                                <div class="col fv-row">
+                                        <!--begin::Svg Icon-->
+                                        {{-- <img src="{{ asset('assets/media/icons/duotune/'.$s->getPathInfo()->getFilename().'/'.$s->getFilename()) }}"/> --}}
+                                        <span class="svg-icon-2">
+                                            {!! file_get_contents($s->getRealPath()) !!}
+                                        </span>
+                                        <span class="fw-bold ps-2 fs-6">
+                                            {{ $s->getFilename() }}
+                                        </span>
+                                        <!--end::Svg Icon-->
+                                    </div>
+                                    <!--end::Col-->
+                                </div>
+                                <!--end::Group-->
+                            @endforeach
+                            <!--end::Option-->
+                        </div>
+                            
+                        
+                        <script>
+                            const svg = document.getElementById("svg-fill");
+                            const path = svg.getElementsByTagName("path");
+                            for(let i = 0;i < path.length; i++)
+                            {
+                                path[i].setAttribute("fill", "{!! $active !!}");
+                            }
+                            // document.getElementById("demo").innerHTML = 'The text in first paragraph (index 0) is: ' + path[0].innerHTML;
+
+                        </script>
+
+                    </div>
+                    <!--end::Card body-->
+                </div>
+                <!--end::Post-->
+            </div>
+            <!--end:::Panel Navigasi Rupiah Murni-->
         </div>
-        <!--end::Post-->
+        <!--begin:::Tab Content-->  
+
     </div>
-
+    <!--end::Content-->
 
     @endsection
 
@@ -374,7 +452,6 @@
     <script src="https://rawgit.com/highcharts/rounded-corners/master/rounded-corners.js"></script>
     <script>
         let chartColor = {!! $chartColor !!} ?? [];
-        console.log(chartColor);
         Highcharts.setOptions({
             chart: {
                 style: {
