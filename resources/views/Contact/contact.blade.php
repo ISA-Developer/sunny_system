@@ -1,6 +1,6 @@
 @extends('layouts.main')
 
-@section('title', 'Account')
+@section('title', 'Contacts')
 
 @section('container')
 
@@ -15,7 +15,7 @@
                 data-kt-swapper-parent="{default: '#kt_content_container', 'lg': '#kt_toolbar_container'}"
                 class="page-title d-flex align-items-center flex-wrap me-3 mb-5 mb-lg-0">
                 <!--begin::Title-->
-                <h1 class="d-flex align-items-center text-dark fw-bolder fs-3 my-1">Customer
+                <h1 class="d-flex align-items-center text-dark fw-bolder fs-3 my-1">Contacts
                     <!--begin::Separator-->
                     {{-- <span class="h-20px border-gray-200 border-start ms-3 mx-2"></span> --}}
                     <!--end::Separator-->
@@ -126,7 +126,7 @@
                                 <button type="reset"
                                     class="btn btn-sm btn-light btn-active-light-primary me-2"
                                     data-kt-menu-dismiss="true">Reset</button>
-                                <button type="submit" class="btn btn-sm btn-primary"
+                                <button type="submit" class="btn btn-sm btn-success"
                                     data-kt-menu-dismiss="true">Apply</button>
                             </div>
                             <!--end::Actions-->
@@ -139,7 +139,7 @@
                 <!--end::Wrapper-->
                 <!--begin::Button-->
                 @if (auth()->user()->Role->is_supervisor)
-                <a href="#" class="btn btn-sm btn-primary" data-bs-toggle="modal"
+                <a href="#" class="btn btn-sm btn-success" data-bs-toggle="modal"
                 data-bs-target="#kt_modal_create_customer" id="kt_toolbar_primary_button">Create</a>
                 @endif
                 <!--end::Button-->
@@ -151,49 +151,30 @@
     <!--end::Toolbar-->
 
     <!--begin::Content-->
-    <div id="content" class="mt-1 px-5">
+    <div id="content" class="mt-0 px-5">
         <div class="card">
+            <div class="card-header d-flex align-items-center">
+                <x-filter-component :kategori="$all_column_formatted->toArray()" :linkFilter="'/contact/get/?model_name=' . base64_encode($model_name) . '&primary_key=id_contact'" :method="'getDataTable'" :modelName="$model_name"/>
+            </div>
             <div class="card-body">
-                <table class="table align-middle table-row-dashed fs-6 gy-2">
-                    <thead>
-                        <tr class="text-start text-gray-400 fw-bolder fs-7 text-uppercase gs-0">
-                            <th class="min-w-auto text-align-center">No</th>
-                            <th class="min-w-50">Customer</th>
-                            <th class="min-w-auto">Email</th>
-                            <th class="min-w-auto">Customer</th>
-                            <th class="min-w-auto">Partner</th>
-                            <th class="min-w-auto">Competitor</th>
-                            <th class="min-w-auto">Payment Methode</th>
-                            <th class="min-w-auto text-align-center">Action</th>
-                        </tr>
-                    </thead>
-                    <tbody>
+                <table class="table table-row-bordered">
+                    <tbody id="data"></tbody>
+                    <tbody id="spinner-div">
                         <tr>
-                            <td>1</td>
-                            <td class="d-flex flex-row align-items-center gap-5">
-                                <div class="photo">
-                                    <img src="/assets/media/avatars/150-26.jpg" width="50px" alt="" class="rounded-circle">
-                                </div>
-                                <div class="name">
-                                    <h5 class="m-0">Max Smith</h5>
-                                    <small>Software Engineer</small>
-                                </div>
-                            </td>
-                            <td>smith.max@google.com</td>
-                            <td><small class="badge badge-light-success">Yes</small></td>
-                            <td><small class="badge badge-light-danger">No</small></td>
-                            <td><small class="badge badge-light-danger">No</small></td>
-                            <td><small class="badge badge-light-danger">Not Define</small></td>
                             <td>
-                                <div class="dropdown">
-                                    <button class="btn btn-secondary dropdown-toggle btn-sm" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                      Action
-                                    </button>
-                                    <ul class="dropdown-menu">
-                                      <li><button class="dropdown-item" type="button">View</button></li>
-                                      <li><button class="dropdown-item" type="button">Delete</button></li>
-                                    </ul>
-                                  </div>
+                                <div class="placeholder"></div>
+                            </td>
+                            <td>
+                                <div class="placeholder"></div>
+                            </td>
+                            <td>
+                                <div class="placeholder"></div>
+                            </td>
+                            <td>
+                                <div class="placeholder"></div>
+                            </td>
+                            <td>
+                                <div class="placeholder"></div>
                             </td>
                         </tr>
                     </tbody>
@@ -207,19 +188,18 @@
 <!--End :: Customer Menu-->
 
 <!--begin::Modal New Customer-->
-<form action="/customer/create" method="post" enctype="multipart/form-data">
+<form action="/contact/create" method="post" enctype="multipart/form-data" onsubmit="return validateInputs(this)">
     @csrf
-    
     <!--begin::Modal - Create Customer-->
     <div class="modal fade" id="kt_modal_create_customer" tabindex="-1" aria-hidden="true">
         <!--begin::Modal dialog-->
-        <div class="modal-dialog modal-dialog-centered mw-800px">
+        <div class="modal-dialog modal-dialog-centered mw-600px">
             <!--begin::Modal content-->
             <div class="modal-content">
                 <!--begin::Modal header-->
                 <div class="modal-header">
                     <!--begin::Modal title-->
-                    <h2>New Customer</h2>
+                    <h2>New Contact</h2>
                     <!--end::Modal title-->
                     <!--begin::Close-->
                     <div class="btn btn-sm btn-icon btn-active-color-primary" data-bs-dismiss="modal">
@@ -235,128 +215,76 @@
                 
                 <!--begin::Modal body-->
                 <div class="modal-body py-lg-6 px-lg-6">
-                    
-                    <!--begin::Get Modal JS-->
-                    <input type="hidden" class="modal-name" name="modal-name">
-                    <!--end::Get Modal JS-->
 
-                    <!--begin::Row Kanan+Kiri-->
-                    <div class="row fv-row">
-                        <!--begin::Col-->
-                        <div class="col-6">
-                            <!--begin::Input group Website-->
-                            <div class="fv-row mb-7">
-                                <!--begin::Label-->
-                                <label class="fs-6 fw-bold form-label mt-3">
-                                    <span class="required">Name</span>
-                                </label>
-                                <!--end::Label-->
-                                <!--begin::Input-->
-                                <input type="text" id="name-customer" name="nama-customer" class="form-control form-control-solid" 
-                                value="{{ old('nama-customer') }}" placeholder="Name" />
-                                @error('name-customer')
-                                <h6 class="text-danger fw-normal">{{ $message }}</h6>
-                                @enderror
-                                <!--end::Input-->
-                            </div>
-                            <!--end::Input group-->
-                        </div>
-                        <!--End begin::Col-->
-                        <div class="col-6">
-                            <!--begin::Input group Website-->
-                            <div class="fv-row mb-7">
-                                <!--begin::Label-->
-                                <label class="fs-6 fw-bold form-label mt-3">
-                                    <span class="">Email</span>
-                                </label>
-                                <!--end::Label-->
-                                <!--begin::Input-->
-                                <input type="email" class="form-control form-control-solid" 
-                                id="email" name="email" value="{{ old('email') }}" placeholder="Email" />
-                                @error('email')
-                                <h6 class="text-danger fw-normal">{{ $message }}</h6>
-                                @enderror
-                                <!--end::Input-->
-                            </div>
-                            <!--end::Input group-->
-                        </div>
-                        <!--End::Col-->
+                    <!--begin::Input group Website-->
+                    <div class="fv-row mb-7">
+                        <!--begin::Label-->
+                        <label class="fs-6 fw-bold form-label mt-3 required">
+                            <span>Full Name</span>
+                        </label>
+                        <!--end::Label-->
+                        <!--begin::Input-->
+                        <input type="text" id="full-name" name="full-name" class="form-control form-control-solid" 
+                        value="{{ old('full-name') }}" placeholder="Full Name" />
+                        @error('full-name')
+                        <h6 class="text-danger fw-normal">{{ $message }}</h6>
+                        @enderror
+                        <!--end::Input-->
                     </div>
-                    <!--End::Row Kanan+Kiri-->
+                    <!--end::Input group-->
 
-                    <!--begin::Row Kanan+Kiri-->
-                    <div class="row fv-row">
-                        <!--begin::Col-->
-                        <div class="col-6">
-                            <!--begin::Input group Website-->
-                            <div class="fv-row mb-6">
-                                <!--begin::Label-->
-                                <label class="fs-6 fw-bold form-label mt-3">
-                                    <span class="">Phone Number</span>
-                                </label>
-                                <!--end::Label-->
-                                <!--begin::Input-->
-                                <input type="number" class="form-control form-control-solid" 
-                                id="phone-number" name="phone-number" value="{{ old('phone-number') }}" placeholder="Phone Number" />
-                                @error('phone-number')
-                                <h6 class="text-danger fw-normal">{{ $message }}</h6>
-                                @enderror
-                                <!--end::Input-->
-                            </div>
-                            <!--end::Input group-->
-                        </div>
-                        <!--End begin::Col-->
-                        <!--begin::Col-->
-                        <div class="col-6">
-                            <!--begin::Input group Website-->
-                            <div class="fv-row mb-6">
-                                 <!--begin::Label-->
-                                 <label class="fs-6 fw-bold form-label mt-3">
-                                    <span>Website</span>
-                                </label>
-                                <!--end::Label-->
-                                <!--begin::Input-->
-                                <input type="text" class="form-control form-control-solid" 
-                                id="website" name="website" value="" placeholder="Website" />
-                                <!--end::Input-->
-                            </div>
-                            <!--end::Input group-->
-                        </div>
-                        <!--End begin::Col-->
+                    <!--begin::Input group Website-->
+                    <div class="fv-row mb-7">
+                        <!--begin::Label-->
+                        <label class="fs-6 fw-bold form-label mt-3">
+                            <span class="">Email</span>
+                        </label>
+                        <!--end::Label-->
+                        <!--begin::Input-->
+                        <input type="email" class="form-control form-control-solid" 
+                        id="email" name="email" value="{{ old('email') }}" placeholder="Email" />
+                        @error('email')
+                        <h6 class="text-danger fw-normal">{{ $message }}</h6>
+                        @enderror
+                        <!--end::Input-->
                     </div>
-                    <!--End::Row Kanan+Kiri-->
+                    <!--end::Input group-->
 
-                    <!--begin::Options-->
-                    <br>
-                    <label class="fs-6 fw-bold form-label">
-                        <span>Roles</span>
-                    </label>
-                    <div class="d-flex" style="flex-direction: row">
-                        <!--begin::Options-->
-                        <label class="form-check form-check-sm form-check-custom form-check-solid me-6 ms-0 align-middle">
-                            <input class="form-check-input" type="checkbox" value="" id="check-customer" name="check-customer" />
-                            <span class="form-check-label me-8"><b>Customer</b></span>
+
+                    <!--begin::Input group Website-->
+                    <div class="fv-row mb-6">
+                        <!--begin::Label-->
+                        <label class="fs-6 fw-bold form-label mt-3">
+                            <span class="">Mobile Phone</span>
                         </label>
-                        <!--end::Options-->
-                        <!--begin::Options-->
-                        <label class="form-check form-check-sm form-check-custom form-check-solid me-6">
-                            <input class="form-check-input" type="checkbox" value="" id="check-partner" name="check-partner" />
-                            <span class="form-check-label me-8"><b>Partner</b></span>
-                        </label>
-                        <!--end::Options-->
-                        <!--begin::Options-->
-                        <label class="form-check form-check-sm form-check-custom form-check-solid me-6">
-                            <input class="form-check-input" type="checkbox" value="" id="check-competitor" name="check-competitor" />
-                            <span class="form-check-label me-8"><b>Competitor</b></span>
-                        </label>
-                        <!--end::Options-->
+                        <!--end::Label-->
+                        <!--begin::Input-->
+                        <input type="number" class="form-control form-control-solid" 
+                        id="mobile-phone" name="mobile-phone" value="{{ old('mobile-phone') }}" placeholder="Phone Number" />
+                        @error('mobile-phone')
+                        <h6 class="text-danger fw-normal">{{ $message }}</h6>
+                        @enderror
+                        <!--end::Input-->
                     </div>
-                    <br>
-                    <!--end::Options-->
+                    <!--end::Input group-->
+
+                    {{-- <!--begin::Input group Website-->
+                    <div class="fv-row mb-6">
+                            <!--begin::Label-->
+                            <label class="fs-6 fw-bold form-label mt-3">
+                            <span>Customer Number</span>
+                        </label>
+                        <!--end::Label-->
+                        <!--begin::Input-->
+                        <input type="text" class="form-control form-control-solid" 
+                        id="customer-number" name="customer-number" value="" placeholder="Customer Number" />
+                        <!--end::Input-->
+                    </div>
+                    <!--end::Input group--> --}}
 
 
                     <div class="modal-footer">
-                        <button type="submit" class="btn btn-sm btn-light btn-active-primary text-white btn-primary" id="proyek_new_save">Save</button>
+                        <button type="submit" class="btn btn-sm btn-light btn-active-primary text-white btn-success" id="proyek_new_save">Save</button>
                     </div>
                 </div>
                 <!--end::Modal body-->
@@ -376,10 +304,33 @@
 <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
 <script src="https://cdn.datatables.net/1.12.1/js/jquery.dataTables.min.js"></script>
 <script src="https://cdn.datatables.net/1.12.1/js/dataTables.bootstrap5.min.js"></script>
+
 <script>
-    $(document).ready(function () {
-        $('table').DataTable({
-        });
+    $(document).ready(function(){
+        if(window.location.href.indexOf('#modal') > -1)
+            $('#kt_modal_create_customer').modal('show');
     });
 </script>
+
+@php
+$model_name = base64_encode($model_name);
+@endphp
+<script>
+$(document).ready(async () => {
+    await fetchingData();
+})
+async function fetchingData() {
+    document.querySelector("#spinner-div").style.display = "";
+    let classModel = "{!! (string) $model_name !!}";
+    const columns = JSON.parse('{!! $all_column->skip(1)->values()->toJson() !!}');
+    // const url = "/company/get/?model_name=" + classModel;
+    const url = `/contact/get/?model_name=${classModel}&primary_key=id_customer`;
+    if(filters.length > 0) {
+        await getDataTable(url, filters, columns);
+    } else {
+        await getDataTable(url, [], columns);
+    }
+}
+</script>
+
 @endsection

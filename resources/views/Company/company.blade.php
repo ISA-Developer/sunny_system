@@ -29,7 +29,7 @@
             <!--begin::Actions-->
             <div class="d-flex align-items-center py-1">
                 <!--begin::Wrapper-->
-                <div class="me-4">
+                {{-- <div class="me-4">
                     <!--begin::Menu-->
                     <a href="#"
                         class="btn btn-sm btn-flex btn-light btn-active-primary fw-bolder"
@@ -126,7 +126,7 @@
                                 <button type="reset"
                                     class="btn btn-sm btn-light btn-active-light-primary me-2"
                                     data-kt-menu-dismiss="true">Reset</button>
-                                <button type="submit" class="btn btn-sm btn-primary"
+                                <button type="submit" class="btn btn-sm btn-success"
                                     data-kt-menu-dismiss="true">Apply</button>
                             </div>
                             <!--end::Actions-->
@@ -135,11 +135,11 @@
                     </div>
                     <!--end::Menu 1-->
                     <!--end::Menu-->
-                </div>
+                </div> --}}
                 <!--end::Wrapper-->
                 <!--begin::Button-->
                 @if (auth()->user()->Role->is_supervisor)
-                <a href="#" class="btn btn-sm btn-primary" data-bs-toggle="modal"
+                <a href="#" class="btn btn-sm btn-success" data-bs-toggle="modal"
                 data-bs-target="#kt_modal_create_company" id="kt_toolbar_primary_button">Create</a>
                 @endif
                 <!--end::Button-->
@@ -151,37 +151,30 @@
     <!--end::Toolbar-->
 
     <!--begin::Content-->
-    <div id="content" class="mt-1 px-5">
+    <div id="content" class="mt-0 px-5">
         <div class="card">
+            <div class="card-header d-flex align-items-center">
+                <x-filter-component :kategori="$all_column_formatted->toArray()" :linkFilter="'/company/get/?model_name=' . base64_encode($model_name) . '&primary_key=id_companies'" :method="'getDataTable'" :modelName="$model_name"/>
+            </div>
             <div class="card-body">
-                <table class="table align-middle table-row-dashed fs-6 gy-2">
-                    <thead>
-                        <tr class="text-start text-gray-400 fw-bolder fs-7 text-uppercase gs-0">
-                            <th class="min-w-auto text-align-center">No</th>
-                            <th class="min-w-50">Company</th>
-                            <th class="min-w-auto">Email</th>
-                            <th class="min-w-auto">Primary Phone</th>
-                            <th class="min-w-auto">Website</th>
-                        </tr>
-                    </thead>
-                    <tbody>
+                <table class="table table-row-bordered">
+                    <tbody id="data"></tbody>
+                    <tbody id="spinner-div">
                         <tr>
-                            <td>1</td>
-                            <td>General Electric, PT</td>
-                            <td>contact@generalelectric.com</td>
-                            <td>+6221 998009</td>
-                            <td>generalelectric.com</td>
                             <td>
-                                <div class="dropdown">
-                                    <a class="btn btn-primary btn-sm dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                      Action
-                                    </a>
-                                  
-                                    <ul class="dropdown-menu">
-                                      <li><a class="dropdown-item" href="/company/view">View</a></li>
-                                      <li><a class="dropdown-item" href="#">Delete</a></li>
-                                    </ul>
-                                  </div>
+                                <div class="placeholder"></div>
+                            </td>
+                            <td>
+                                <div class="placeholder"></div>
+                            </td>
+                            <td>
+                                <div class="placeholder"></div>
+                            </td>
+                            <td>
+                                <div class="placeholder"></div>
+                            </td>
+                            <td>
+                                <div class="placeholder"></div>
                             </td>
                         </tr>
                     </tbody>
@@ -194,14 +187,14 @@
 </div>
 <!--End :: Customer Menu-->
 
-<!--begin::Modal New Customer-->
-<form action="/company/create" method="post" enctype="multipart/form-data" id="form">
+<!--begin::Modal New Company-->
+<form action="/company/create" method="post" enctype="multipart/form-data" onsubmit="return validateInputs(this)">
     @csrf
     
     <!--begin::Modal - Create Customer-->
     <div class="modal fade" id="kt_modal_create_company" tabindex="-1" aria-hidden="true">
         <!--begin::Modal dialog-->
-        <div class="modal-dialog modal-dialog-centered mw-600px">
+        <div class="modal-dialog modal-dialog-centered mw-800px">
             <!--begin::Modal content-->
             <div class="modal-content">
                 <!--begin::Modal header-->
@@ -223,81 +216,164 @@
                 
                 <!--begin::Modal body-->
                 <div class="modal-body py-lg-6 px-lg-6">
+
+                    <!--begin::Row Kanan+Kiri-->
+                    <div class="row fv-row">
+                        <!--begin::Col-->
+                        <div class="col-6">
+                            <!--begin::Input group Website-->
+                            <div class="fv-row mb-7">
+                                <!--begin::Label-->
+                                <label class="fs-6 fw-bold form-label mt-3 required">
+                                    <span>Company Name</span>
+                                </label>
+                                <!--end::Label-->
+                                <!--begin::Input-->
+                                <input type="text" id="name" name="company-name" class="form-control form-control-solid" 
+                                value="{{ old('nama-customer') }}" placeholder="Name" />
+                                @error('name-customer')
+                                <h6 class="text-danger fw-normal">{{ $message }}</h6>
+                                @enderror
+                                <!--end::Input-->
+                            </div>
+                            <!--end::Input group-->
+                        </div>
+                        <!--End begin::Col-->
+                        <div class="col-6">
+                            <!--begin::Input group Website-->
+                            <div class="fv-row mb-7">
+                                <!--begin::Label-->
+                                <label class="fs-6 fw-bold form-label mt-3">
+                                    <span class="">Email</span>
+                                </label>
+                                <!--end::Label-->
+                                <!--begin::Input-->
+                                <input type="email" class="form-control form-control-solid" 
+                                id="email" name="email" value="{{ old('email') }}" placeholder="Email" />
+                                @error('email')
+                                <h6 class="text-danger fw-normal">{{ $message }}</h6>
+                                @enderror
+                                <!--end::Input-->
+                            </div>
+                            <!--end::Input group-->
+                        </div>
+                        <!--End::Col-->
+                    </div>
+                    <!--End::Row Kanan+Kiri-->
+
+                    <!--begin::Row Kanan+Kiri-->
+                    <div class="row fv-row">
+                        <!--begin::Col-->
+                        <div class="col-6">
+                            <!--begin::Input group Website-->
+                            <div class="fv-row mb-6">
+                                <!--begin::Label-->
+                                <label class="fs-6 fw-bold form-label mt-3">
+                                    <span class="">Phone Number</span>
+                                </label>
+                                <!--end::Label-->
+                                <!--begin::Input-->
+                                <input type="number" class="form-control form-control-solid" 
+                                id="phone-number" name="phone-number" value="{{ old('phone-number') }}" placeholder="Phone Number" />
+                                @error('phone-number')
+                                <h6 class="text-danger fw-normal">{{ $message }}</h6>
+                                @enderror
+                                <!--end::Input-->
+                            </div>
+                            <!--end::Input group-->
+                        </div>
+                        <!--End begin::Col-->
+                        <!--begin::Col-->
+                        <div class="col-6">
+                            <!--begin::Input group Website-->
+                            <div class="fv-row mb-6">
+                                 <!--begin::Label-->
+                                 <label class="fs-6 fw-bold form-label mt-3">
+                                    <span>Website</span>
+                                </label>
+                                <!--end::Label-->
+                                <!--begin::Input-->
+                                <input type="text" class="form-control form-control-solid" 
+                                id="website" name="website" value="" placeholder="Website" />
+                                <!--end::Input-->
+                            </div>
+                            <!--end::Input group-->
+                        </div>
+                        <!--End begin::Col-->
+                    </div>
+                    <!--End::Row Kanan+Kiri-->
+
+                    {{-- <!--begin::Options-->
+                    <br>
+                    <label class="fs-6 fw-bold form-label">
+                        <span>Category</span>
+                    </label>
+                    <!--Begin::Select-->
+                    <div id="category">
+                        <select name="category" class="form-select form-select-solid" data-control="select2" data-hide-search="false" data-placeholder="Select Category" style="padding: 50px">
+                            <option value=""></option>
+                            @forelse ($categories as $category)
+                            <option value="{{ $category->id }}">{{ $category->name }}</option>
+                            @empty
+                                <option value=""></option>
+                            @endforelse
+                        </select>
+                    </div>
+                    <!--End::Select-->
+                    <br>
+                    <!--end::Options--> --}}
                     
-                    <!--begin::Get Modal JS-->
-                    <input type="hidden" class="modal-name" name="modal-name">
-                    <!--end::Get Modal JS-->
-
-                    <!--begin::Input group Website-->
-                    <div class="fv-row mb-7">
-                        <!--begin::Label-->
-                        <label class="fs-6 fw-bold form-label mt-3">
-                            <span class="required">Company Name</span>
-                        </label>
-                        <!--end::Label-->
-                        <!--begin::Input-->
-                        <input type="text" id="name-company" name="name-company" class="form-control form-control-solid" 
-                        value="{{ old('name-company') }}" placeholder="Company Name" onfocusout="validation(this, message1)" />
-                        <div class="invalid-feedback m-0" id="message1" style="visibility: hidden">
-                            Input name is invalid
-                        </div>
-                        <!--end::Input-->
+                    {{-- <!--begin::Options-->
+                    <br>
+                    <label class="fs-6 fw-bold form-label">
+                        <span>Industry</span>
+                    </label>
+                    <!--Begin::Select-->
+                    <div id="category">
+                        <select name="industry" class="form-select form-select-solid" data-control="select2" data-hide-search="false" data-placeholder="Select Category" style="padding: 50px">
+                            <option value=""></option>
+                            @forelse ($industries as $industry)
+                                <option value="{{ $industry->id }}">{{ $industry->name }}</option>
+                            @empty
+                                <option value=""></option>
+                            @endforelse
+                        </select>
                     </div>
-                    <!--end::Input group-->
+                    <!--End::Select-->
+                    <br>
+                    <!--end::Options--> --}}
 
-                    <!--begin::Input group Website-->
-                    <div class="fv-row mb-7">
-                        <!--begin::Label-->
-                        <label class="fs-6 fw-bold form-label mt-3">
-                            <span class="">Company Email</span>
+                    <!--begin::Options-->
+                    <br>
+                    <label class="fs-6 fw-bold form-label">
+                        <span>Type</span>
+                    </label>
+                    <div class="d-flex" style="flex-direction: row">
+                        <!--begin::Options-->
+                        <label class="form-check form-check-sm form-check-custom form-check-solid me-6 ms-0 align-middle">
+                            <input class="form-check-input" type="checkbox" value="" id="check-customer" name="check-customer" />
+                            <span class="form-check-label me-8"><b>Customer</b></span>
                         </label>
-                        <!--end::Label-->
-                        <!--begin::Input-->
-                        <input type="email" class="form-control form-control-solid" 
-                        id="email" name="email" value="{{ old('email') }}" placeholder="Email Company" onfocusout="validation(this, message2)"/>
-                        <div class="invalid-feedback m-0" id="message2" style="visibility: hidden">
-                            Input email is invalid
-                        </div>
-                        <!--end::Input-->
+                        <!--end::Options-->
+                        <!--begin::Options-->
+                        <label class="form-check form-check-sm form-check-custom form-check-solid me-6">
+                            <input class="form-check-input" type="checkbox" value="" id="check-partner" name="check-partner" />
+                            <span class="form-check-label me-8"><b>Partner</b></span>
+                        </label>
+                        <!--end::Options-->
+                        <!--begin::Options-->
+                        <label class="form-check form-check-sm form-check-custom form-check-solid me-6">
+                            <input class="form-check-input" type="checkbox" value="" id="check-our-company" name="check-our-company" />
+                            <span class="form-check-label me-8"><b>Our Company</b></span>
+                        </label>
+                        <!--end::Options-->
                     </div>
-                    <!--end::Input group-->
+                    <br>
+                    <!--end::Options-->
 
-                    <!--begin::Input group Website-->
-                    <div class="fv-row mb-6">
-                        <!--begin::Label-->
-                        <label class="fs-6 fw-bold form-label mt-3">
-                            <span class="">Primary Phone</span>
-                        </label>
-                        <!--end::Label-->
-                        <!--begin::Input-->
-                        <input type="number" class="form-control form-control-solid" 
-                        id="primary-number" name="phone-number" value="{{ old('phone-number') }}" placeholder="Primary Phone" onfocusout="validation(this, message3)"/>
-                        <div class="invalid-feedback m-0" id="message3" style="visibility: hidden">
-                            Input primary-number is invalid
-                        </div>
-                        <!--end::Input-->
-                    </div>
-                    <!--end::Input group-->
-
-                    <!--begin::Input group Website-->
-                    <div class="fv-row mb-6">
-                        <!--begin::Label-->
-                        <label class="fs-6 fw-bold form-label mt-3">
-                        <span>Website</span>
-                        </label>
-                        <!--end::Label-->
-                        <!--begin::Input-->
-                        <input type="text" class="form-control form-control-solid" 
-                        id="website" name="website" value="" placeholder="Website" onfocusout="validation(this, message4)"/>
-                        <div class="invalid-feedback m-0" id="message4" style="visibility: hidden">
-                            Input website is invalid
-                        </div>
-                        <!--end::Input-->
-                    </div>
-                    <!--end::Input group-->
 
                     <div class="modal-footer">
-                        <button type="submit" class="btn btn-sm btn-light btn-active-primary text-white btn-primary" id="proyek_new_save">Save</button>
+                        <button type="submit" class="btn btn-sm btn-light btn-active-primary text-white btn-success" id="proyek_new_save">Save</button>
                     </div>
                 </div>
                 <!--end::Modal body-->
@@ -314,7 +390,7 @@
 @endsection
 
 @section('js-script')  
-<script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+{{-- <script src="https://code.jquery.com/jquery-3.5.1.js"></script> --}}
 <script src="https://cdn.datatables.net/1.12.1/js/jquery.dataTables.min.js"></script>
 <script src="https://cdn.datatables.net/1.12.1/js/dataTables.bootstrap5.min.js"></script>
 {{-- <script>
@@ -323,6 +399,16 @@
         });
     });
 </script> --}}
+@php
+    $model_name = base64_encode($model_name);
+    $except_column = [
+        "check_customer",
+        "check_partner",
+        "check_our_company",
+        "avatar",
+    ];
+    $all_column = collectToCustomCollect($all_column)->skip(1)->exceptColumns($except_column)->values()->toJson();
+@endphp
 <script>
     const validation = (e, m) => {
         
@@ -343,5 +429,30 @@
         }
         
     }
+</script>
+
+<script>
+    $(document).ready(async () => {
+        await fetchingData();
+    })
+    async function fetchingData() {
+        document.querySelector("#spinner-div").style.display = "";
+        let classModel = "{!! (string) $model_name !!}";
+        const columns = JSON.parse('{!! $all_column !!}');
+        // const url = "/company/get/?model_name=" + classModel;
+        const url = `/company/get/?model_name=${classModel}&primary_key=id_companies`;
+        if(filters.length > 0) {
+            await getDataTable(url, filters, columns);
+        } else {
+            await getDataTable(url, [], columns);
+        }
+    }
+</script>
+
+<script>
+    $(document).ready(function(){
+        if(window.location.href.indexOf('#modal') > -1)
+            $('#kt_modal_create_company').modal('show');
+    });
 </script>
 @endsection

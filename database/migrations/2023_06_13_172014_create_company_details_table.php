@@ -13,12 +13,12 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('customer_managements', function (Blueprint $table) {
-            $table->uuid("id_customer")->primary();
-            $table->string("nama_customer");
-            $table->string("email")->nullable();
-            $table->string("website")->nullable();
-            $table->string("phone_number")->nullable();
+        Schema::create('company_detail', function (Blueprint $table) {
+            $table->id("id_company_detail")->autoIncrement();
+            $table->string("company_id");
+            $table->string("total_employees")->nullable();
+            $table->string("business_entity")->nullable();
+            $table->string("annual_revenue")->nullable();
             $table->timestamps();
         });
     }
@@ -30,6 +30,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('customer_managements');
+        Schema::dropIfExists('company_detail');
     }
 };
